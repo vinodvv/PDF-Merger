@@ -12,6 +12,7 @@ import os
 
 selected_files = []
 
+
 def select_pdfs():
     """Open a file dialog and store the selected PDF file Paths"""
     global selected_files
@@ -22,6 +23,7 @@ def select_pdfs():
     # Convert to list so it's easier to manipulate
     selected_files = list(files)
     update_list_files()
+
 
 def update_list_files():
     """Refresh the listbox and file count label with current selections."""
@@ -37,9 +39,30 @@ def update_list_files():
         text=f"{len(selected_files)} files selected"
     )
 
+
 def merge_pdfs():
     """Merge the selected PDF files into the specified output file."""
+    # Ensure at least one PDF file is selected
+    if not selected_files:
+        messagebox.showwarning(
+            "No files selected",
+            "Please select at least one PDF file to merge."
+        )
+        return
+
     output_name = output_entry_text.get().strip()
+
+    # Check output filename
+    if not output_name:
+        messagebox.showwarning(
+            "Invalid output filename",
+            "Please provide a valid output filename."
+        )
+        return
+
+    # Ensure the output has a .pdf extension
+    if not output_name.lower().endswith(".pdf"):
+        output_name += ".pdf"
 
     merger = PdfMerger()
 
@@ -66,7 +89,9 @@ label_title = tk.Label(root, text="PDF Merger", font=("Arial", 16))
 label_title.pack(pady=20)
 
 # Select files button widget
-btn_choose_dir = tk.Button(text="Select PDF files", font=("Arial", 12), command=select_pdfs)
+btn_choose_dir = tk.Button(
+    text="Select PDF files", font=("Arial", 12), command=select_pdfs
+)
 btn_choose_dir.pack(pady=10)
 
 # Listbox to display selected files
@@ -74,7 +99,9 @@ list_files = tk.Listbox(root, width=60, height=8, font=("Arial", 10))
 list_files.pack(pady=10)
 
 # Label showing count of selected files
-file_count_label = tk.Label(root, text="0 files selected.", font=('Arial', 10))
+file_count_label = tk.Label(
+    root, text="0 files selected.", font=('Arial', 10)
+)
 file_count_label.pack()
 
 # Frame to hold the Output label and Entry
@@ -109,4 +136,5 @@ status_label = tk.Label(root, text="", font=('Arial', 12))
 status_label.pack()
 
 
+# Main loop
 root.mainloop()
