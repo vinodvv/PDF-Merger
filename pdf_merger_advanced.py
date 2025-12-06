@@ -64,6 +64,16 @@ def merge_pdfs():
     if not output_name.lower().endswith(".pdf"):
         output_name += ".pdf"
 
+    # Ensure output folder exists
+    output_dir = "output"
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Full file path where the file will be saved
+    full_output_path = os.path.join(output_dir, output_name)
+
+    # Output filename
+    output_filename = os.path.basename(full_output_path)
+
     merger = PdfMerger()
 
     # Append all selected PDFs
@@ -71,12 +81,12 @@ def merge_pdfs():
         merger.append(pdf)
 
     # Write the merged PDF to disk
-    with open(output_name, 'wb') as file:
+    with open(full_output_path, 'wb') as file:
         merger.write(file)
 
     # Update and show status label and message box
-    status_label.config(text=f"Merged into: {output_name}", fg="green")
-    messagebox.showinfo("Success", f"Merged into: {output_name}")
+    status_label.config(text=f"Merged into: {output_filename}", fg="green")
+    messagebox.showinfo("Success", f"Merged into: {output_filename}")
 
 
 # ----- GUI -----
