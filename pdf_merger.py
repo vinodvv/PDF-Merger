@@ -10,6 +10,8 @@ for file in os.listdir(BASE_DIR):
     if file.lower().endswith(".pdf"):
         pdf_files.append(os.path.join(BASE_DIR, file))
 
+pdf_files.sort()  # Sort files alphabetically
+
 # Number of PDFs
 num_pdfs = len(pdf_files)
 
