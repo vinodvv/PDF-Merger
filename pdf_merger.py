@@ -23,7 +23,10 @@ for filename in pdf_files:
 
 # Merge PDF files
 for pdf in pdf_files:
-    merger.append(pdf)
+    try:
+        merger.append(pdf)
+    except Exception as e:
+        print(f"⚠️ Skipping {os.path.basename(pdf)}: {e}")
 
 os.makedirs("Output", exist_ok=True)
 output_filename = "Output/merged.pdf"
